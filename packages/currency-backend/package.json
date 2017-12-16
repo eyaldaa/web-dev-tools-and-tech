@@ -1,0 +1,45 @@
+{
+  "name": "@web-dev-tools-and-tech/currency-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/currency-backend.js",
+  "files": [
+    "helm",
+    "src",
+    "scripts"
+  ],
+  "bin": {
+    "run-currency-backend": "scripts/run-currency-backend.js"
+  },
+  "scripts": {
+    "test": "mocha --no-timeouts 'test/unit/*.test.js' 'test/it/*.test.js' 'test/e2e/*.test.js' && npm run eslint",
+    "eslint": "eslint '**/*.js'",
+    "start": "scripts/run-currency-backend.js",
+    "build:docker": "docker build -t applitools/currency-backend --build-arg NPM_FILE=`cat ~/.npmrc` .",
+    "publish:docker": "docker tag applitools/currency-backend applitools/currency-backend:${npm_package_version} && docker push applitools/currency-backend:${npm_package_version} && docker push applitools/currency-backend:latest",
+    "build:all": "npm run build:docker",
+    "prepublishOnly": "npm version patch",
+    "publish:all": "npm publish --access=private && npm run publish:docker",
+    "deploy": "kdeploy deploy currency-backend ${npm_package_version} -c worker -v ./node_modules/@applitools/rendering-grid-deployment ."
+  },
+  "author": "Gil Tayar <gil@tayar.org>",
+  "license": "Unlicense",
+  "repository": {
+    "url": "https://github.com/giltayar/web-dev-tools-and-tech",
+    "type": "git"
+  },
+  "dependencies": {
+    "debug": "^3.1.0"
+  },
+  "devDependencies": {
+    "@applitools/docker-compose-testkit": "^1.0.0",
+    "@applitools/rendering-grid-deployment": "*",
+    "chai": "^4.1.2",
+    "docker-compose-mocha": "^1.1.0",
+    "eslint": "^4.2.0",
+    "eslint-plugin-mocha-no-only": "0.0.5",
+    "eslint-plugin-prettier": "^2.1.2",
+    "mocha": "^4.0.1",
+    "prettier": "^1.5.2"
+  }
+}
