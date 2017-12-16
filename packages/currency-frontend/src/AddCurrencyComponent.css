@@ -1,0 +1,24 @@
+.add-currency-component {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.add-currency-component .label {
+  display: flex;
+  flex-direction: row;
+}
+
+.add-currency-component .label input {
+  flex-grow: 1;
+}
+
+.add-currency-component .label span {
+  flex-grow: 0;
+}
+
+.add-currency-component button {
+  width: 50px;
+  margin-top: 10px;
+}
