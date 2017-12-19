@@ -3,8 +3,7 @@ const path = require('path')
 const {describe, it, before, after} = require('mocha')
 const {expect} = require('chai')
 const fetch = require('node-fetch')
-const {dockerComposeTool} = require('docker-compose-mocha')
-const {getAddressForService} = require('@applitools/docker-compose-testkit')
+const {dockerComposeTool, getAddressForService} = require('docker-compose-mocha')
 
 describe('currency-backend e2e', function() {
   this.retries(global.v8debug || /--inspect/.test(process.execArgv.join(' ')) ? 0 : 3)
@@ -21,6 +20,6 @@ describe('currency-backend e2e', function() {
     const response = await fetch(`http://${appAddress}/`)
 
     expect(response.status).to.equal(200)
-    expect(await response.text()).to.equal('')
+    expect(await response.text()).to.equal('OK')
   })
 })

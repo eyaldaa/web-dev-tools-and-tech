@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "packages/currency-frontend"
+		},
+		{
+			"path": "packages/currency-backend"
+		}
+	],
+	"settings": {}
+}
