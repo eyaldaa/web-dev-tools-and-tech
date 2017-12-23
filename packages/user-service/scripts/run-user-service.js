@@ -3,7 +3,7 @@
 
 const webApp = require('../')
 
-const configuration = {}
+const configuration = {redisAddress: process.env.REDIS_ADDRESS}
 
 const server = webApp(configuration).listen(process.env.PORT || 3000, err => {
   if (err) {

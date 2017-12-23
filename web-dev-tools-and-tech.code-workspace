@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "packages/currency-backend"
+		},
+		{
+			"path": "packages/user-service"
 		}
 	],
 	"settings": {}

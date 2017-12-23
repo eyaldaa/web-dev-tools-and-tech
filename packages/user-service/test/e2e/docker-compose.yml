@@ -1,8 +1,12 @@
 version: '3'
 services:
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379
   app:
-    image: applitools/user-service
+    image: web-dev-tools-and-tech/user-service
     ports:
       - 80
     environment:
-      # Configuration
+      REDIS_ADDRESS: 'redis:6379'
