@@ -47,7 +47,6 @@ describe('user-service it', function() {
   )
 
   it('should return OK on /', async () => {
-    console.log(`@@@GIL sdfsdf`)
     const response = await fetch(`${baseUrl()}/`)
 
     expect(response.status).to.equal(200)
