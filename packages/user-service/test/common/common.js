@@ -20,7 +20,7 @@ async function authenticateUser(baseUrl, email, password) {
 
   expect(response.status).to.be.oneOf([200, 401, 404])
 
-  return response.status === 200
+  return response.status === 200 ? await response.json() : undefined
 }
 
 async function getUserData(baseUrl, id) {

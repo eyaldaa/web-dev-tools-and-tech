@@ -68,7 +68,7 @@ describe('user-service it', function() {
     it('should authenticate signed up user', async () => {
       const authenticated = await authenticateUser(baseUrl(), 'email@example.com', 'great-password')
 
-      expect(authenticated).to.be.true
+      expect(authenticated).to.eql({id: userId})
     })
 
     it('should not authenticate unknown user', async () => {
@@ -79,13 +79,13 @@ describe('user-service it', function() {
         'great-password',
       )
 
-      expect(authenticated).to.be.false
+      expect(authenticated).to.be.undefined
     })
 
     it('should not authenticate user with different password', async () => {
       const authenticated = await authenticateUser(baseUrl(), `email@example.com`, 'wrong-password')
 
-      expect(authenticated).to.be.false
+      expect(authenticated).to.be.undefined
     })
   })
 
@@ -116,7 +116,11 @@ describe('user-service it', function() {
 
       expect(await putUserProfile(baseUrl(), userId, data)).to.equal(true)
 
-      expect(await getUserProfile(baseUrl(), userId)).to.eql({...data, email: 'email@example.com'})
+      expect(await getUserProfile(baseUrl(), userId)).to.eql({
+        ...data,
+        id: userId,
+        email: 'email@example.com',
+      })
     })
 
     it('should not allow put for an unknown user', async () => {

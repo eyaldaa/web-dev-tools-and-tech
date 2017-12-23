@@ -54,9 +54,9 @@ function createApp({redisAddress}) {
         return res.status(404).send('user email does not exist')
       }
 
-      const {passwordHash} = emailInfo
+      const {passwordHash, id} = emailInfo
       if (await bcrypt.compare(password, passwordHash)) {
-        res.send('')
+        res.json({id})
       } else {
         res.status(401).send('')
       }
@@ -70,7 +70,7 @@ function createApp({redisAddress}) {
 
       const data = await getUserKey('profile', id)
 
-      return data ? res.json(data) : res.status(404).send('user not found')
+      return data ? res.json({id, ...data}) : res.status(404).send('user not found')
     }),
   )
 

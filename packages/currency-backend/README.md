@@ -2,6 +2,9 @@
 
 Application that yada yada yada.
 
+Parts of the code were copied from [easy node authentication](https://github.com/scotch-io/easy-node-authentication)
+([License](https://github.com/scotch-io/easy-node-authentication/blob/master/LICENSE))
+
 ## Installing
 
 * This package is meant to be used as a docker container, passing the environment variables as defined below.

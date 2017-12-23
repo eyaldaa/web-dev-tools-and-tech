@@ -31,6 +31,6 @@ describe('user-service e2e', function() {
 
     const authenticated = await authenticateUser(appUrl, 'email@example.com', 'great-password')
 
-    expect(authenticated).to.be.true
+    expect(authenticated).to.be.ok
   })
 })
