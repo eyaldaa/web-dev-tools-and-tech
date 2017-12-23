@@ -44,14 +44,14 @@ describe('user-service it', function() {
     async () => ({userId} = await signupUser('good name', 'email@example.com', 'great-password')),
   )
 
+  it('should return OK on /', async () => {
+    const response = await fetch(`${baseUrl()}/`)
+
+    expect(response.status).to.equal(200)
+    expect(await response.text()).to.equal('OK')
+  })
+
   describe('signup and authentication', function() {
-    it.only('should return OK on /', async () => {
-      const response = await fetch(`${baseUrl()}/`)
-
-      expect(response.status).to.equal(200)
-      expect(await response.text()).to.equal('OK')
-    })
-
     it('should authenticate signed up user', async () => {
       const authenticated = await authenticateUser('email@example.com', 'great-password')
 
@@ -86,10 +86,10 @@ describe('user-service it', function() {
 
   async function authenticateUser(email, password) {
     const response = await fetch(
-      `${baseUrl()}/signup?email=${encodeURI(email)}&password=${encodeURI(password)}`,
+      `${baseUrl()}/authenticate?email=${encodeURI(email)}&password=${encodeURI(password)}`,
     )
 
-    expect(response.status).to.be.oneOf([200, 401])
+    expect(response.status).to.be.oneOf([200, 401, 404])
 
     return response.status === 200
   }

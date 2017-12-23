@@ -51,10 +51,10 @@ function createApp({redisAddress}) {
 
       const emailInfo = await getUserKey('authentication', email)
       if (!emailInfo) {
-        res.status(404).send('user email does not exist')
+        return res.status(404).send('user email does not exist')
       }
 
-      const {id, passwordHash} = emailInfo
+      const {passwordHash} = emailInfo
       if (await bcrypt.compare(password, passwordHash)) {
         res.send('')
       } else {
@@ -123,7 +123,7 @@ function createApp({redisAddress}) {
   async function getUserKey(category, id) {
     const client = await redisClient()
 
-    return await p(client.get.bind(client))(`user:${category}:${id}`)
+    return JSON.parse(await p(client.get.bind(client))(`user:${category}:${id}`))
   }
 }
 
