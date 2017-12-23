@@ -37,8 +37,8 @@ function createApp({redisAddress}) {
       const salt = await bcrypt.genSalt(2)
       const passwordHash = await bcrypt.hash(password, salt)
 
-      await setUserKey('profile', id, {email, name}),
-        await setUserKey('authentication', email, {id, passwordHash})
+      await Promise.all([setUserKey('profile', id, {email, name}), setUserKey('data', id, {})])
+      await setUserKey('authentication', email, {id, passwordHash})
 
       res.json({id})
     }),
@@ -68,18 +68,27 @@ function createApp({redisAddress}) {
     captureAsyncErrors(async (req, res) => {
       const {id} = req.params
 
-      // {email, name}
-      res.json(await getUserKey('profile', id))
+      const data = await getUserKey('profile', id)
+
+      return data ? res.json(data) : res.status(404).send('user not found')
     }),
   )
 
   app.put(
     '/user/profile/:id',
+    bodyParser.json(),
     captureAsyncErrors(async (req, res) => {
       const {id} = req.params
+      const {name} = req.body
 
-      // {email, name}
-      await setUserKey('profile', id)
+      const profile = await getUserKey('profile', id)
+      if (!profile) {
+        return res.status(404).send('user not found')
+      }
+
+      const merged = {...profile, name}
+
+      await setUserKey('profile', id, merged)
 
       res.send('')
     }),
@@ -90,7 +99,9 @@ function createApp({redisAddress}) {
     captureAsyncErrors(async (req, res) => {
       const {id} = req.params
 
-      return res.json(await getUserKey('data', id))
+      const data = await getUserKey('data', id)
+
+      return data ? res.json(data) : res.status(404).send('user not found')
     }),
   )
 
@@ -99,6 +110,11 @@ function createApp({redisAddress}) {
     bodyParser.json(),
     captureAsyncErrors(async (req, res) => {
       const {id} = req.params
+
+      const data = await getUserKey('data', id)
+      if (!data) {
+        return res.status(404).send('user not found')
+      }
 
       await setUserKey('data', id, req.body)
 

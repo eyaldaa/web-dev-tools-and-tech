@@ -2,7 +2,6 @@
 const path = require('path')
 const {describe, it, before, after} = require('mocha')
 const {expect} = require('chai')
-const fetch = require('node-fetch')
 const {dockerComposeTool, getAddressForService} = require('docker-compose-mocha')
 const {signupUser, authenticateUser} = require('../common/common')
 

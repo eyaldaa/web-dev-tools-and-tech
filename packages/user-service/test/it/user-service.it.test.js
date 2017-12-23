@@ -1,12 +1,18 @@
 'use strict'
-const {promisify: p} = require('util')
 const path = require('path')
 const {describe, it, before, after} = require('mocha')
 const {expect} = require('chai')
 const redis = require('redis')
 const fetch = require('node-fetch')
 const {dockerComposeTool, getAddressForService} = require('docker-compose-mocha')
-const {signupUser, authenticateUser} = require('../common/common')
+const {
+  signupUser,
+  authenticateUser,
+  putUserData,
+  putUserProfile,
+  getUserData,
+  getUserProfile,
+} = require('../common/common')
 
 const app = require('../..')
 
@@ -43,7 +49,12 @@ describe('user-service it', function() {
   let userId
   before(
     async () =>
-      ({userId} = await signupUser(baseUrl(), 'good name', 'email@example.com', 'great-password')),
+      ({id: userId} = await signupUser(
+        baseUrl(),
+        'good name',
+        'email@example.com',
+        'great-password',
+      )),
   )
 
   it('should return OK on /', async () => {
@@ -75,6 +86,41 @@ describe('user-service it', function() {
       const authenticated = await authenticateUser(baseUrl(), `email@example.com`, 'wrong-password')
 
       expect(authenticated).to.be.false
+    })
+  })
+
+  describe('data', function() {
+    it('should return undefined for unknown user', async () => {
+      expect(await getUserData(baseUrl(), userId + 'xxx')).to.be.undefined
+    })
+    it('should return data that was put for a user', async () => {
+      const data = {foo: 'bar', lalala: true}
+
+      expect(await putUserData(baseUrl(), userId, data)).to.equal(true)
+
+      expect(await getUserData(baseUrl(), userId)).to.eql(data)
+    })
+
+    it('should not allow put for an unknown user', async () => {
+      expect(await putUserData(baseUrl(), userId + 'ttt', {})).to.equal(false)
+    })
+  })
+
+  describe('profile', function() {
+    it('should return the name and email for a signed user', async () => {
+      expect(await getUserProfile(baseUrl(), userId + 'xxx')).to.be.undefined
+    })
+
+    it('should return profile that was put for a user', async () => {
+      const data = {name: 'newman'}
+
+      expect(await putUserProfile(baseUrl(), userId, data)).to.equal(true)
+
+      expect(await getUserProfile(baseUrl(), userId)).to.eql({...data, email: 'email@example.com'})
+    })
+
+    it('should not allow put for an unknown user', async () => {
+      expect(await putUserProfile(baseUrl(), userId + 'ttt', {})).to.equal(false)
     })
   })
 })
