@@ -8,7 +8,7 @@ const {getAddressForService} = require('@applitools/docker-compose-testkit')
 
 const app = require('../..')
 
-describe('user-store it', function() {
+describe('user-service it', function() {
   this.retries(global.v8debug || /--inspect/.test(process.execArgv.join(' ')) ? 0 : 3)
 
   const composePath = path.join(__dirname, 'docker-compose.yml')

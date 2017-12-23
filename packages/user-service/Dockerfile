@@ -11,4 +11,4 @@ COPY . .
 EXPOSE 80
 ENV PORT=80
 
-CMD ["node", "scripts/run-user-store.js"]
+CMD ["node", "scripts/run-user-service.js"]

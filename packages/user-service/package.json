@@ -1,26 +1,26 @@
 {
-  "name": "@web-dev-tools-and-tech/user-store",
+  "name": "@web-dev-tools-and-tech/user-service",
   "version": "1.0.0",
   "description": "",
-  "main": "src/user-store.js",
+  "main": "src/user-service.js",
   "files": [
     "helm",
     "src",
     "scripts"
   ],
   "bin": {
-    "run-user-store": "scripts/run-user-store.js"
+    "run-user-service": "scripts/run-user-service.js"
   },
   "scripts": {
     "test": "mocha --no-timeouts 'test/unit/*.test.js' 'test/it/*.test.js' 'test/e2e/*.test.js' && npm run eslint",
     "eslint": "eslint '**/*.js'",
-    "start": "scripts/run-user-store.js",
-    "build:docker": "docker build -t applitools/user-store --build-arg NPM_FILE=`cat ~/.npmrc` .",
-    "publish:docker": "docker tag applitools/user-store applitools/user-store:${npm_package_version} && docker push applitools/user-store:${npm_package_version} && docker push applitools/user-store:latest",
+    "start": "scripts/run-user-service.js",
+    "build:docker": "docker build -t applitools/user-service --build-arg NPM_FILE=`cat ~/.npmrc` .",
+    "publish:docker": "docker tag applitools/user-service applitools/user-service:${npm_package_version} && docker push applitools/user-service:${npm_package_version} && docker push applitools/user-service:latest",
     "build:all": "npm run build:docker",
     "prepublishOnly": "npm version patch",
     "publish:all": "npm publish --access=private && npm run publish:docker",
-    "deploy": "kdeploy deploy user-store ${npm_package_version} -c worker -v ./node_modules/@applitools/rendering-grid-deployment ."
+    "deploy": "kdeploy deploy user-service ${npm_package_version} -c worker -v ./node_modules/@applitools/rendering-grid-deployment ."
   },
   "author": "Gil Tayar <gil@tayar.org>",
   "license": "Unlicense",
@@ -29,7 +29,11 @@
     "type": "git"
   },
   "dependencies": {
-    "debug": "^3.1.0"
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "debug": "^3.1.0",
+    "redis": "^2.8.0",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "@applitools/docker-compose-testkit": "^1.0.0",

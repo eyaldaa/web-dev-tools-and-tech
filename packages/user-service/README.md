@@ -1,4 +1,4 @@
-# user-store
+# user-service
 
 Application that yada yada yada.
 
@@ -7,21 +7,21 @@ Application that yada yada yada.
 * This package is meant to be used as a docker container, passing the environment variables as defined below.
 
 ```sh
-docker run -d applitools/user-store
+docker run -d applitools/user-service
 ```
 
-* Alternatively, it can be run using `./scripts/run-user-store.js`,
+* Alternatively, it can be run using `./scripts/run-user-service.js`,
   passing the environment variables as defined below.
 
 ```sh
-npm install -g @applitools/user-store
-run-user-store.js
+npm install -g @applitools/user-service
+run-user-service.js
 ```
 
 * Alternatively, you can import it and create the app (see below), passing it the configuration as defined below.
 
 ```sh
-npm install @applitools/user-store
+npm install @applitools/user-service
 ```
 
 ## Services it depends on
@@ -41,7 +41,7 @@ A JSON with the following fields:
 ## Using the package to run the application
 
 ```js
-const createApp = require('@applitools/user-store')
+const createApp = require('@applitools/user-service')
 
 // configuration options aee the same as the above corresponding environment variables
 const app = createApp({})

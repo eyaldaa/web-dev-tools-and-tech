@@ -6,7 +6,7 @@ const fetch = require('node-fetch')
 const {dockerComposeTool} = require('docker-compose-mocha')
 const {getAddressForService} = require('@applitools/docker-compose-testkit')
 
-describe('user-store e2e', function() {
+describe('user-service e2e', function() {
   this.retries(global.v8debug || /--inspect/.test(process.execArgv.join(' ')) ? 0 : 3)
 
   const composePath = path.join(__dirname, 'docker-compose.yml')
