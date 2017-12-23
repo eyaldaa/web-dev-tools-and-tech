@@ -3,9 +3,10 @@ const {promisify: p} = require('util')
 const path = require('path')
 const {describe, it, before, after} = require('mocha')
 const {expect} = require('chai')
-const fetch = require('node-fetch')
 const redis = require('redis')
+const fetch = require('node-fetch')
 const {dockerComposeTool, getAddressForService} = require('docker-compose-mocha')
+const {signupUser, authenticateUser} = require('../common/common')
 
 const app = require('../..')
 
@@ -41,10 +42,12 @@ describe('user-service it', function() {
 
   let userId
   before(
-    async () => ({userId} = await signupUser('good name', 'email@example.com', 'great-password')),
+    async () =>
+      ({userId} = await signupUser(baseUrl(), 'good name', 'email@example.com', 'great-password')),
   )
 
   it('should return OK on /', async () => {
+    console.log(`@@@GIL sdfsdf`)
     const response = await fetch(`${baseUrl()}/`)
 
     expect(response.status).to.equal(200)
@@ -53,46 +56,28 @@ describe('user-service it', function() {
 
   describe('signup and authentication', function() {
     it('should authenticate signed up user', async () => {
-      const authenticated = await authenticateUser('email@example.com', 'great-password')
+      const authenticated = await authenticateUser(baseUrl(), 'email@example.com', 'great-password')
 
       expect(authenticated).to.be.true
     })
 
     it('should not authenticate unknown user', async () => {
       const random = ((Math.random() * 100000) | 0).toString()
-      const authenticated = await authenticateUser(`email-${random}@example.com`, 'great-password')
+      const authenticated = await authenticateUser(
+        baseUrl(),
+        `email-${random}@example.com`,
+        'great-password',
+      )
 
       expect(authenticated).to.be.false
     })
 
     it('should not authenticate user with different password', async () => {
-      const authenticated = await authenticateUser(`email@example.com`, 'wrong-password')
+      const authenticated = await authenticateUser(baseUrl(), `email@example.com`, 'wrong-password')
 
       expect(authenticated).to.be.false
     })
   })
-
-  async function signupUser(name, email, password) {
-    const response = await fetch(`${baseUrl()}/signup`, {
-      method: 'POST',
-      headers: {'content-type': 'application/json'},
-      body: JSON.stringify({email, name, password}),
-    })
-
-    expect(response.status).to.equal(200)
-
-    return await response.json()
-  }
-
-  async function authenticateUser(email, password) {
-    const response = await fetch(
-      `${baseUrl()}/authenticate?email=${encodeURI(email)}&password=${encodeURI(password)}`,
-    )
-
-    expect(response.status).to.be.oneOf([200, 401, 404])
-
-    return response.status === 200
-  }
 })
 
 function setupApp(app, envName, composePath) {

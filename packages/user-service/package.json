@@ -15,12 +15,12 @@
     "test": "mocha --no-timeouts 'test/unit/*.test.js' 'test/it/*.test.js' 'test/e2e/*.test.js' && npm run eslint",
     "eslint": "eslint '**/*.js'",
     "start": "scripts/run-user-service.js",
-    "build:docker": "docker build -t applitools/user-service --build-arg NPM_FILE=`cat ~/.npmrc` .",
-    "publish:docker": "docker tag applitools/user-service applitools/user-service:${npm_package_version} && docker push applitools/user-service:${npm_package_version} && docker push applitools/user-service:latest",
-    "build:all": "npm run build:docker",
+    "build": ":",
+    "postbuild": "npm run build:docker",
+    "build:docker": "docker build -t web-dev-tools-and-tech/user-service --build-arg NPM_FILE=`cat ~/.npmrc` .",
+    "publish:docker": "docker tag web-dev-tools-and-tech/user-service web-dev-tools-and-tech/user-service:${npm_package_version} && docker push web-dev-tools-and-tech/user-service:${npm_package_version} && docker push web-dev-tools-and-tech/user-service:latest",
     "prepublishOnly": "npm version patch",
-    "publish:all": "npm publish --access=private && npm run publish:docker",
-    "deploy": "kdeploy deploy user-service ${npm_package_version} -c worker -v ./node_modules/@applitools/rendering-grid-deployment ."
+    "postpublish": "npm run publish:docker"
   },
   "author": "Gil Tayar <gil@tayar.org>",
   "license": "Unlicense",
@@ -37,8 +37,8 @@
     "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "@applitools/docker-compose-testkit": "^1.0.0",
-    "@applitools/rendering-grid-deployment": "*",
+    "@web-dev-tools-and-tech/docker-compose-testkit": "^1.0.0",
+    "@web-dev-tools-and-tech/rendering-grid-deployment": "*",
     "chai": "^4.1.2",
     "docker-compose-mocha": "^1.1.0",
     "eslint": "^4.2.0",
