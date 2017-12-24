@@ -3,11 +3,7 @@
 
 const webApp = require('../')
 
-const configuration = {
-  redisAddress: process.env.REDIS_ADDRESS,
-  sessionSecret: process.env.SESSION_SECRET,
-  userServiceAddress: process.env.USER_SERVICE_ADDRESS,
-}
+const configuration = {}
 
 const server = webApp(configuration).listen(process.env.PORT || 3000, err => {
   if (err) {

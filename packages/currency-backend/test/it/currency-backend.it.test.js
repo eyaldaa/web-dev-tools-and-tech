@@ -1,24 +1,37 @@
 'use strict'
+const path = require('path')
 const {describe, it, before, after} = require('mocha')
 const {expect} = require('chai')
 const fetch = require('node-fetch')
+const {dockerComposeTool, getAddressForService} = require('docker-compose-mocha')
 
 const app = require('../..')
 
 describe('currency-backend it', function() {
   this.retries(global.v8debug || /--inspect/.test(process.execArgv.join(' ')) ? 0 : 3)
+  const composePath = path.join(__dirname, 'docker-compose.yml')
 
-  const {address} = setupApp(app)
+  const envName = dockerComposeTool(before, after, composePath, {
+    shouldPullImages: !!process.env.NODE_ENV && process.env.NODE_ENV !== 'development',
+    brutallyKill: true,
+  })
+
+  const {baseUrl} = setupApp(app, envName, composePath)
+
+  it.only('should wait and let me play with stuff', async () => {
+    console.log(`Start testing at ${baseUrl()}`)
+    await require('util').promisify(setTimeout)(20000000)
+  })
 
   it('should return OK on /', async () => {
-    const response = await fetch(`http://${address()}/`)
+    const response = await fetch(`${baseUrl()}/`)
 
     expect(response.status).to.equal(200)
     expect(await response.text()).to.equal('OK')
   })
 
   it('should return a correct list of currencies', async () => {
-    const response = await fetch(`http://${address()}/currencies`)
+    const response = await fetch(`${baseUrl()}/currencies`)
 
     expect(response.status).to.equal(200)
     expect(await response.json()).to.eql([
@@ -57,9 +70,7 @@ describe('currency-backend it', function() {
   })
 
   it('should return a correct list of rates', async () => {
-    const response = await fetch(
-      `http://${address()}/rates?base=ILS&date=2010-10-10&symbols=EUR,USD`,
-    )
+    const response = await fetch(`${address()}/rates?base=ILS&date=2010-10-10&symbols=EUR,USD`)
 
     expect(response.status).to.equal(200)
     expect(await response.json()).to.eql({
@@ -69,11 +80,15 @@ describe('currency-backend it', function() {
   })
 })
 
-function setupApp(app) {
+function setupApp(app, envName, composePath) {
   let server
 
   before(async () => {
-    const configuration = {}
+    const configuration = {
+      redisAddress: await getAddressForService(envName, composePath, 'redis', 6379),
+      sessionSecret: 'hush-hush',
+      userServiceAddress: await getAddressForService(envName, composePath, 'user-service', 80),
+    }
 
     await new Promise((resolve, reject) => {
       server = app(configuration).listen(err => (err ? reject(err) : resolve()))

@@ -1,0 +1,26 @@
+version: '3'
+services:
+
+  currency-backend:
+    image: webdevtoolsandtech/currency-backend
+    environment:
+      REDIS_ADDRESS: 'currency-backend-redis:6379'
+      SESSION_SECRET: 'shhhhhhhh'
+      USER_SERVICE_ADDRESS: 'user-service:80'
+
+  currency-backend-redis:
+    image: redis:alpine
+    ports:
+      - 6379
+
+  user-service:
+    image: webdevtoolsandtech/user-service
+    ports:
+      - 80
+    environment:
+      REDIS_ADDRESS: 'user-service-redis:6379'
+
+  user-service-redis:
+    image: redis:alpine
+    ports:
+      - 6379

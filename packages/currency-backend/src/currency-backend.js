@@ -9,7 +9,7 @@ const session = require('express-session')
 const connectRedis = require('connect-redis')
 const authenticationRoutes = require('./auth-routes')
 
-function createApp({redisAddress, sessionSecret}) {
+function createApp({redisAddress, sessionSecret, userServiceAddress}) {
   let cachedSymbols
 
   const app = express()
@@ -21,10 +21,11 @@ function createApp({redisAddress, sessionSecret}) {
 
   app.set('view engine', 'ejs')
 
+  const RedisStore = connectRedis(session)
   app.use(
     session({
       secret: sessionSecret,
-      store: connectRedis(session)({url: `//${redisAddress}`}),
+      store: new RedisStore({url: `//${redisAddress}`}),
     }),
   )
   app.use(passport.initialize())
@@ -33,7 +34,7 @@ function createApp({redisAddress, sessionSecret}) {
 
   app.get('/', (req, res) => res.send('OK'))
 
-  authenticationRoutes(app, passport, onlyIfLoggedIn)
+  authenticationRoutes(app, passport, userServiceAddress, onlyIfLoggedIn)
 
   app.get('/currencies', onlyIfLoggedIn, async (req, res) => {
     if (cachedSymbols) return res.send(cachedSymbols)
