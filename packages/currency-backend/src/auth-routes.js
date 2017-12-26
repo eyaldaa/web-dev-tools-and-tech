@@ -56,6 +56,7 @@ module.exports = function(app, passport, userServiceAddress, onlyIfLoggedIn) {
 
         const response = await fetch(`http://${userServiceAddress}/signup`, {
           method: 'POST',
+          headers: {'content-type': 'application/json'},
           body: JSON.stringify({name, email, password}),
         })
         if (!response.ok)

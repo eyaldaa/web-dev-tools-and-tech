@@ -87,10 +87,4 @@ function createApp({redisAddress, sessionSecret, userServiceAddress}) {
   return app
 }
 
-function onlyIfLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) return next()
-
-  res.redirect('/')
-}
-
 module.exports = createApp

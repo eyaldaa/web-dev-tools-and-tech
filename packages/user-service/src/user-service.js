@@ -29,6 +29,7 @@ function createApp({redisAddress}) {
     captureAsyncErrors(async (req, res) => {
       const {email, name, password} = req.body
       const id = uuid.v4()
+      console.log(`@@@GIL `, req.body)
 
       if (await getUserKey('authenticatoin', email)) {
         return res.status(400).send('user email alreadusy exists')

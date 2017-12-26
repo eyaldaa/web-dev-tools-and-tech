@@ -13,9 +13,6 @@
 			"path": "packages/user-service"
 		},
 		{
-			"path": "/Users/giltayar/code/easy-node-authentication"
-		},
-		{
 			"path": "packages/e2e"
 		}
 	],

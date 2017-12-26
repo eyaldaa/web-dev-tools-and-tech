@@ -16,7 +16,7 @@
         "test/e2e/*.test.js"
       ],
       "env": {
-        "DEBUG": "applitools:snapshot-server-app*"
+        "DEBUG": "*"
       },
       "cwd": "${workspaceRoot}",
       "protocol": "inspector",
