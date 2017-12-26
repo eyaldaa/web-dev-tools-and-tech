@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "p-retry": "^1.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "retry-as-promised": "^2.3.2"
   },
   "devDependencies": {
     "eslint-plugin-prettier": "^2.3.1",
@@ -15,6 +15,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "npm run build:docker",
+    "build:docker": "docker build -t web-dev-tools-and-tech/currency-frontend .",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

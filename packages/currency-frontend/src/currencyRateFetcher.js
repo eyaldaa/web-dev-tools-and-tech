@@ -1,4 +1,4 @@
-import retry from 'p-retry'
+import retry from 'retry-as-promised'
 
 export default async function({symbols, baseCurrencySymbol}) {
   if (!symbols || symbols.length === 0) return []
@@ -12,7 +12,7 @@ export default async function({symbols, baseCurrencySymbol}) {
 
       return await response.json()
     },
-    {retries: 3},
+    {max: 3},
   )
 
   return Object.entries(fixerRates.rates).map(([symbol, rate]) => ({symbol, rate}))
