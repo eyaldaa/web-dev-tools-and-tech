@@ -8,8 +8,9 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const connectRedis = require('connect-redis')
 const authenticationRoutes = require('./auth-routes')
+const frontendRoutes = require('./frontend-routes')
 
-function createApp({redisAddress, sessionSecret, userServiceAddress}) {
+function createApp({redisAddress, sessionSecret, userServiceAddress, frontendAddress}) {
   let cachedSymbols
 
   const app = express()
@@ -35,8 +36,9 @@ function createApp({redisAddress, sessionSecret, userServiceAddress}) {
   app.get('/', (req, res) => res.send('OK'))
 
   authenticationRoutes(app, passport, userServiceAddress, onlyIfLoggedIn)
+  frontendRoutes(app, frontendAddress, onlyIfLoggedIn)
 
-  app.get('/currencies', onlyIfLoggedIn, async (req, res) => {
+  app.get('/currencies', onlyIfLoggedInAjax, async (req, res) => {
     if (cachedSymbols) return res.send(cachedSymbols)
 
     try {
@@ -54,7 +56,7 @@ function createApp({redisAddress, sessionSecret, userServiceAddress}) {
     }
   })
 
-  app.get('/rates', onlyIfLoggedIn, async (req, res) => {
+  app.get('/rates', onlyIfLoggedInAjax, async (req, res) => {
     const base = req.query.base || 'USD'
     const symbols = req.query.symbols
     const date = req.date || 'latest'

@@ -88,6 +88,7 @@ function setupApp(app, envName, composePath) {
       redisAddress: await getAddressForService(envName, composePath, 'redis', 6379),
       sessionSecret: 'hush-hush',
       userServiceAddress: await getAddressForService(envName, composePath, 'user-service', 80),
+      frontendAddress: await getAddressForService(envName, composePath, 'currency-frontend', 80),
     }
 
     await new Promise((resolve, reject) => {

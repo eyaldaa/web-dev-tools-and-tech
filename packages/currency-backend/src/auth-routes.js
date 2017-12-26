@@ -2,7 +2,7 @@
 const fetch = require('node-fetch')
 var {Strategy: LocalStrategy} = require('passport-local')
 
-module.exports = function(app, passport, userServiceAddress, onlyIfLoggedIn) {
+function authRoutes(app, passport, userServiceAddress, onlyIfLoggedIn) {
   passport.serializeUser(function(user, done) {
     done(null, user.id)
   })
@@ -89,7 +89,7 @@ module.exports = function(app, passport, userServiceAddress, onlyIfLoggedIn) {
   app.post(
     '/login',
     passport.authenticate('local-login', {
-      successRedirect: '/profile',
+      successRedirect: '/currency',
       failureRedirect: '/login',
       failureFlash: true,
     }),
@@ -102,7 +102,7 @@ module.exports = function(app, passport, userServiceAddress, onlyIfLoggedIn) {
   app.post(
     '/signup',
     passport.authenticate('local-signup', {
-      successRedirect: '/profile',
+      successRedirect: '/currency',
       failureRedirect: '/signup',
       failureFlash: true,
     }),
@@ -120,3 +120,5 @@ module.exports = function(app, passport, userServiceAddress, onlyIfLoggedIn) {
     }),
   )
 }
+
+module.exports = authRoutes

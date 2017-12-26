@@ -16,7 +16,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "postbuild": "npm run build:docker",
-    "build:docker": "docker build -t web-dev-tools-and-tech/currency-frontend .",
+    "build:docker": "docker build -t webdevtoolsandtech/currency-frontend .",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

@@ -16,3 +16,8 @@ services:
     image: redis:alpine
     ports:
       - 6379
+
+  currency-frontend:
+    image: webdevtoolsandtech/currency-frontend
+    ports:
+      - 80
