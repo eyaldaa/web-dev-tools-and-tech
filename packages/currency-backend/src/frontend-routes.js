@@ -6,18 +6,12 @@ function frontendRoutes(app, frontendAdress, onlyIfLoggedIn) {
     '/currency',
     onlyIfLoggedIn,
     proxy(frontendAdress, {
-      proxyReqPathResolver() {
-        return '/'
-      },
-      userResDecorator(_, data) {
-        return (
-          `
-<script>window.useCurrencyBackend = true</script>
-        ` + data.toString().replace(/(href|src)="/gi, `$1="//${frontendAdress}`)
-        )
+      proxyReqPathResolver(req) {
+        return req.url === '/currency' ? '/' : req.url
       },
     }),
   )
+  app.get(/\./, onlyIfLoggedIn, proxy(frontendAdress))
 }
 
 module.exports = frontendRoutes

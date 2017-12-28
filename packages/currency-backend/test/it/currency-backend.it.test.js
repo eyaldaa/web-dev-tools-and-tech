@@ -18,7 +18,7 @@ describe('currency-backend it', function() {
 
   const {baseUrl} = setupApp(envName, composePath)
 
-  it.skip('should wait and let me play with stuff', async () => {
+  it.only('should wait and let me play with stuff', async () => {
     console.log(`Start testing at ${baseUrl()}`)
     await require('util').promisify(setTimeout)(20000000)
   })
@@ -89,7 +89,7 @@ function setupApp(envName, composePath) {
       sessionSecret: 'hush-hush',
       userServiceAddress: await getAddressForService(envName, composePath, 'user-service', 80),
       frontendAddress: await getAddressForService(envName, composePath, 'currency-frontend', 80),
-      disableAuthentication: true,
+      disableAuthentication: false,
     }
 
     await new Promise((resolve, reject) => {

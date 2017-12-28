@@ -25,6 +25,9 @@ async function fetchRatesFromCurrencyBackend({symbols, baseCurrencySymbol}) {
 
   const response = await fetch(
     `/rates?symbols=${encodeURI(symbols.join(','))}&base=${encodeURI(baseCurrencySymbol)}`,
+    {
+      credentials: 'same-origin',
+    },
   )
   if (!response.ok) throw new Error(`could not fetch quotes. status: ${response.status}`)
 
