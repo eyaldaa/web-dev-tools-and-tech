@@ -7,7 +7,7 @@ function frontendRoutes(app, frontendAdress, onlyIfLoggedIn) {
     onlyIfLoggedIn,
     proxy(frontendAdress, {
       proxyReqPathResolver(req) {
-        return req.url === '/currency' ? '/' : req.url
+        return '/'
       },
     }),
   )
