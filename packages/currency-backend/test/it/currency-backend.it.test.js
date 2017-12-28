@@ -16,9 +16,9 @@ describe('currency-backend it', function() {
     brutallyKill: true,
   })
 
-  const {baseUrl} = setupApp(app, envName, composePath)
+  const {baseUrl} = setupApp(envName, composePath)
 
-  it.only('should wait and let me play with stuff', async () => {
+  it.skip('should wait and let me play with stuff', async () => {
     console.log(`Start testing at ${baseUrl()}`)
     await require('util').promisify(setTimeout)(20000000)
   })
@@ -70,17 +70,17 @@ describe('currency-backend it', function() {
   })
 
   it('should return a correct list of rates', async () => {
-    const response = await fetch(`${address()}/rates?base=ILS&date=2010-10-10&symbols=EUR,USD`)
+    const response = await fetch(`${baseUrl()}/rates?base=GBP&date=2010-10-10&symbols=EUR,USD`)
 
     expect(response.status).to.equal(200)
     expect(await response.json()).to.eql({
-      EUR: 0.24176,
-      USD: 0.28583,
+      EUR: 1.1427,
+      USD: 1.5854,
     })
   })
 })
 
-function setupApp(app, envName, composePath) {
+function setupApp(envName, composePath) {
   let server
 
   before(async () => {
@@ -89,6 +89,7 @@ function setupApp(app, envName, composePath) {
       sessionSecret: 'hush-hush',
       userServiceAddress: await getAddressForService(envName, composePath, 'user-service', 80),
       frontendAddress: await getAddressForService(envName, composePath, 'currency-frontend', 80),
+      disableAuthentication: true,
     }
 
     await new Promise((resolve, reject) => {

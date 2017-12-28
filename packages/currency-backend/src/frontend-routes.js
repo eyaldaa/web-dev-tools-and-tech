@@ -10,7 +10,11 @@ function frontendRoutes(app, frontendAdress, onlyIfLoggedIn) {
         return '/'
       },
       userResDecorator(_, data) {
-        return data.toString().replace(/(href|src)="/gi, `$1="//${frontendAdress}`)
+        return (
+          `
+<script>window.useCurrencyBackend = true</script>
+        ` + data.toString().replace(/(href|src)="/gi, `$1="//${frontendAdress}`)
+        )
       },
     }),
   )

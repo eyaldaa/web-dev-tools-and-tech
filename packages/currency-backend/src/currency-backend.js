@@ -10,7 +10,13 @@ const connectRedis = require('connect-redis')
 const authenticationRoutes = require('./auth-routes')
 const frontendRoutes = require('./frontend-routes')
 
-function createApp({redisAddress, sessionSecret, userServiceAddress, frontendAddress}) {
+function createApp({
+  redisAddress,
+  sessionSecret,
+  userServiceAddress,
+  frontendAddress,
+  disableAuthentication,
+}) {
   let cachedSymbols
 
   const app = express()
@@ -35,11 +41,13 @@ function createApp({redisAddress, sessionSecret, userServiceAddress, frontendAdd
 
   app.get('/', (req, res) => res.send('OK'))
 
-  authenticationRoutes(app, passport, userServiceAddress, onlyIfLoggedIn)
+  if (!disableAuthentication) {
+    authenticationRoutes(app, passport, userServiceAddress, onlyIfLoggedIn)
+  }
   frontendRoutes(app, frontendAddress, onlyIfLoggedIn)
 
   app.get('/currencies', onlyIfLoggedInAjax, async (req, res) => {
-    if (cachedSymbols) return res.send(cachedSymbols)
+    if (cachedSymbols) return res.json(cachedSymbols)
 
     try {
       const response = await fetch('https://api.fixer.io/latest')
@@ -59,7 +67,7 @@ function createApp({redisAddress, sessionSecret, userServiceAddress, frontendAdd
   app.get('/rates', onlyIfLoggedInAjax, async (req, res) => {
     const base = req.query.base || 'USD'
     const symbols = req.query.symbols
-    const date = req.date || 'latest'
+    const date = req.query.date || 'latest'
 
     try {
       const response = await fetch(`https://api.fixer.io/${date}?symbols=${symbols}&base=${base}`)
@@ -75,13 +83,13 @@ function createApp({redisAddress, sessionSecret, userServiceAddress, frontendAdd
   })
 
   function onlyIfLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) return next()
+    if (req.isAuthenticated() || disableAuthentication) return next()
 
     res.redirect('/')
   }
 
   function onlyIfLoggedInAjax(req, res, next) {
-    if (req.isAuthenticated()) return next()
+    if (req.isAuthenticated() || disableAuthentication) return next()
 
     res.status(401).send('')
   }
