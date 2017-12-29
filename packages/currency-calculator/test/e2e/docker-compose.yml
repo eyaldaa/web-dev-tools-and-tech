@@ -1,8 +1,6 @@
 version: '3'
 services:
   app:
-    image: web-dev-tools-and-tech/currency-calculator
+    image: webdevtoolsandtech/currency-calculator
     ports:
       - 80
-    environment:
-      # Configuration

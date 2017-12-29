@@ -15,12 +15,12 @@
     "test": "mocha --no-timeouts 'test/unit/*.test.js' 'test/it/*.test.js' 'test/e2e/*.test.js' && npm run eslint",
     "eslint": "eslint '**/*.js'",
     "start": "scripts/run-currency-calculator.js",
-    "build:docker": "docker build -t applitools/currency-calculator --build-arg NPM_FILE=`cat ~/.npmrc` .",
-    "publish:docker": "docker tag applitools/currency-calculator applitools/currency-calculator:${npm_package_version} && docker push applitools/currency-calculator:${npm_package_version} && docker push applitools/currency-calculator:latest",
-    "build:all": "npm run build:docker",
+    "build": ":",
+    "postbuild": "npm run build:docker",
+    "build:docker": "docker build -t webdevtoolsandtech/currency-calculator --build-arg NPM_FILE=`cat ~/.npmrc` .",
     "prepublishOnly": "npm version patch",
-    "publish:all": "npm publish --access=private && npm run publish:docker",
-    "deploy": "kdeploy deploy currency-calculator ${npm_package_version} -c worker -v ./node_modules/@applitools/rendering-grid-deployment ."
+    "postpublish": "npm run publish:docker",
+    "publish:docker": "docker tag webdevtoolsandtech/currency-calculator webdevtoolsandtech/currency-calculator:${npm_package_version} && docker push webdevtoolsandtech/currency-calculator:${npm_package_version} && docker push webdevtoolsandtech/currency-calculator:latest"
   },
   "author": "Gil Tayar <gil@tayar.org>",
   "license": "Unlicense",
@@ -29,11 +29,13 @@
     "type": "git"
   },
   "dependencies": {
-    "debug": "^3.1.0"
+    "body-parser": "^1.18.2",
+    "debug": "^3.1.0",
+    "express": "^4.16.2"
   },
   "devDependencies": {
-    "@applitools/docker-compose-testkit": "^1.0.0",
-    "@applitools/rendering-grid-deployment": "*",
+    "@webdevtoolsandtech/docker-compose-testkit": "^1.0.0",
+    "@webdevtoolsandtech/rendering-grid-deployment": "*",
     "chai": "^4.1.2",
     "docker-compose-mocha": "^1.1.0",
     "eslint": "^4.2.0",

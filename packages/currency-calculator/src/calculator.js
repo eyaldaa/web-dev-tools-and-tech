@@ -1,4 +1,4 @@
-const initialState = currencyConversions => ({display: '0', initial: true, currencyConversions})
+const initialState = rates => ({display: '0', initial: true, rates})
 
 const nextState = (calculatorState, input) => {
   if (isDigit(input)) {
@@ -11,9 +11,7 @@ const nextState = (calculatorState, input) => {
     return {
       ...calculatorState,
       initial: true,
-      display: String(
-        calculatorState.currencyConversions[input] * parseInt(calculatorState.display, 10),
-      ),
+      display: String(calculatorState.rates[input] * parseInt(calculatorState.display, 10)),
     }
   } else {
     return calculatorState
@@ -21,7 +19,7 @@ const nextState = (calculatorState, input) => {
 }
 
 const isRate = (calculatorState, character) =>
-  Object.keys(calculatorState.currencyConversions).includes(character)
+  Object.keys(calculatorState.rates).includes(character)
 
 const isDigit = character => character >= '0' && character <= '9'
 

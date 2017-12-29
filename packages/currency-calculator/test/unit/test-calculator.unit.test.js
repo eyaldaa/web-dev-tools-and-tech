@@ -3,7 +3,7 @@ const {describe, it} = require('mocha')
 const {expect} = require('chai')
 const calculator = require('../../src/calculator')
 
-describe.only('calculator', function() {
+describe('calculator', function() {
   const stream = (characters, calculatorState = calculator.initialState()) =>
     !characters
       ? calculatorState

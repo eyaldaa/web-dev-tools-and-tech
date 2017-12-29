@@ -65,9 +65,7 @@ function createApp({
   })
 
   app.get('/rates', onlyIfLoggedInAjax, async (req, res) => {
-    const base = req.query.base || 'USD'
-    const symbols = req.query.symbols
-    const date = req.query.date || 'latest'
+    const {base = 'USD', date = 'latest', symbols} = req.query || {}
 
     try {
       const response = await fetch(`https://api.fixer.io/${date}?symbols=${symbols}&base=${base}`)
