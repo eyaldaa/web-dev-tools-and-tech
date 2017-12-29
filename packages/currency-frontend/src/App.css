@@ -26,3 +26,21 @@
 .add-currency-component-container {
   width: 300px;
 }
+
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #999;
+  padding: 0.5rem;
+  cursor: default;
+}
+
+td.operator {
+  background-color: grey;
+}
+
+td.operator:hover {
+  background-color: lightgrey;
+}

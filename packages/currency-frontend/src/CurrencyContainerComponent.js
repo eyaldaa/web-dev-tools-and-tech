@@ -2,12 +2,14 @@ import React from 'react'
 import AddCurrencyComponent from './AddCurrencyComponent'
 import CurrencyList from './CurrencyList'
 import fetchRates from './currencyRateFetcher'
+import CalculatorDisplay from './CalculatorDisplay'
+import CalculatorKeypad from './CalculatorKeypad'
 
 export default class CurrencyContainerComponent extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {rates: []}
+    this.state = {rates: [], calculator: {rates: undefined, display: ''}}
   }
 
   componentDidMount() {
@@ -47,6 +49,10 @@ export default class CurrencyContainerComponent extends React.Component {
         key="2"
         rates={this.state.rates}
         deleteCurrency={symbol => this.deleteCurrencySymbol(symbol)}
+      />,
+      <CalculatorDisplay display={this.state.calculator.display} />,
+      <CalculatorKeypad
+        onKeypad={input => this.setState(state => ({...state, calculator: {display: input}}))}
       />,
     ]
   }
