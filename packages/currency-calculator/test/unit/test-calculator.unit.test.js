@@ -4,15 +4,24 @@ const {expect} = require('chai')
 const calculator = require('../../src/calculator')
 
 describe('calculator', function() {
-  const stream = (characters, calculatorState = calculator.initialState()) =>
+  const stream = (characters, rates = {}, calculatorState = calculator.initialState()) =>
     !characters
       ? calculatorState
       : characters[0] === '('
         ? stream(
             characters.slice(characters.indexOf(')') + 1),
-            calculator.nextState(calculatorState, characters.slice(1, characters.indexOf(')'))),
+            rates,
+            calculator.nextState(
+              calculatorState,
+              characters.slice(1, characters.indexOf(')')),
+              rates,
+            ),
           )
-        : stream(characters.slice(1), calculator.nextState(calculatorState, characters[0]))
+        : stream(
+            characters.slice(1),
+            rates,
+            calculator.nextState(calculatorState, characters[0], rates),
+          )
 
   it('should show initial display correctly', () => {
     expect(calculator.initialState().display).to.equal('0')
@@ -70,12 +79,10 @@ describe('calculator', function() {
   })
 
   it('8(ISR)', () => {
-    expect(stream('8(ISR)', calculator.initialState({ISR: 4, EUR: 5})).display).to.equal('32')
+    expect(stream('8(ISR)', {ISR: 4, EUR: 5}).display).to.equal('32')
   })
 
   it('8(ISR)+2(EUR)=', () => {
-    expect(stream('8(ISR)+2(EUR)=', calculator.initialState({ISR: 4, EUR: 5})).display).to.equal(
-      '42',
-    )
+    expect(stream('8(ISR)+2(EUR)=', {ISR: 4, EUR: 5}).display).to.equal('42')
   })
 })

@@ -18,8 +18,8 @@ describe('currency-backend it', function() {
 
   const {baseUrl} = setupApp(envName, composePath)
 
-  it.skip('should wait and let me play with stuff', async () => {
-    console.log(`Start testing at ${baseUrl()}`)
+  it.only('should wait and let me play with stuff', async () => {
+    console.log(`Start testing at ${baseUrl()}/signup`)
     await require('util').promisify(setTimeout)(20000000)
   })
 
@@ -97,11 +97,11 @@ describe('currency-backend it', function() {
 
     return await response.json()
   }
-
 })
 
 function setupApp(envName, composePath) {
   let server
+  let appInstance
 
   before(async () => {
     const configuration = {
@@ -119,10 +119,15 @@ function setupApp(envName, composePath) {
     }
 
     await new Promise((resolve, reject) => {
-      server = app(configuration).listen(err => (err ? reject(err) : resolve()))
+      appInstance = app(configuration)
+      server = appInstance.listen(err => (err ? reject(err) : resolve()))
     })
   })
-  after(done => server.close(done))
+
+  after(async done => {
+    await appInstance.dispose
+    server.close(done)
+  })
 
   return {
     baseUrl: () => `http://localhost:${server.address().port}`,

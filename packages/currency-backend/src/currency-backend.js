@@ -1,4 +1,5 @@
 'use strict'
+const {promisify: p} = require('util')
 const express = require('express')
 const fetch = require('node-fetch')
 const passport = require('passport')
@@ -32,11 +33,11 @@ function createApp({
   app.set('view engine', 'ejs')
 
   const redisClient = new redis.createClient({url: `//${redisAddress}`})
-  const RedisStore = connectRedis({client: redisClient})
+  const RedisStore = connectRedis(session)
   app.use(
     session({
       secret: sessionSecret,
-      store: new RedisStore({url: `//${redisAddress}`}),
+      store: new RedisStore({client: redisClient}),
     }),
   )
   app.use(passport.initialize())

@@ -1,25 +1,24 @@
-const initialState = rates => ({display: '0', initial: true, rates})
+const initialState = () => ({display: '0', initial: true})
 
-const nextState = (calculatorState, input) => {
+const nextState = (calculatorState, input, rates = {}) => {
   if (isDigit(input)) {
     return addDigit(calculatorState, input)
   } else if (isOperator(input)) {
     return addOperator(calculatorState, input)
   } else if (isEqualSign(input)) {
     return compute(calculatorState)
-  } else if (isRate(calculatorState, input)) {
+  } else if (isRate(rates, input)) {
     return {
       ...calculatorState,
       initial: true,
-      display: String(calculatorState.rates[input] * parseInt(calculatorState.display, 10)),
+      display: String(rates[input] * parseInt(calculatorState.display, 10)),
     }
   } else {
     return calculatorState
   }
 }
 
-const isRate = (calculatorState, character) =>
-  Object.keys(calculatorState.rates).includes(character)
+const isRate = (rates, input) => Object.keys(rates).includes(input)
 
 const isDigit = character => character >= '0' && character <= '9'
 

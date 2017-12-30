@@ -2,6 +2,7 @@ import React from 'react'
 import AddCurrencyComponent from './AddCurrencyComponent'
 import CurrencyList from './CurrencyList'
 import fetchRates from './currencyRateFetcher'
+import fetchNextCalculatorState from './calculatorService'
 import CalculatorDisplay from './CalculatorDisplay'
 import CalculatorKeypad from './CalculatorKeypad'
 
@@ -9,7 +10,7 @@ export default class CurrencyContainerComponent extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {rates: [], calculator: {rates: undefined, display: ''}}
+    this.state = {rates: [], calculatorState: undefined}
   }
 
   componentDidMount() {
@@ -23,6 +24,16 @@ export default class CurrencyContainerComponent extends React.Component {
     })
 
     this.setState(rates => ({rates: newRates}))
+  }
+
+  async nextCalculatorState(input) {
+    const nextCalculatorState = await fetchNextCalculatorState(
+      this.state.calculatorState,
+      input,
+      this.state.rates,
+    ).catch(err => (err.message.includes('status: 404') ? {display: input} : Promise.reject(err)))
+
+    this.setState(state => ({calculatorState: nextCalculatorState}))
   }
 
   addCurrencySymbol(symbolToAdd) {
@@ -50,10 +61,10 @@ export default class CurrencyContainerComponent extends React.Component {
         rates={this.state.rates}
         deleteCurrency={symbol => this.deleteCurrencySymbol(symbol)}
       />,
-      <CalculatorDisplay display={this.state.calculator.display} />,
+      <CalculatorDisplay display={(this.state.calculatorState || {}).display} />,
       <CalculatorKeypad
         currencies={this.state.rates.map(({symbol}) => symbol)}
-        onKeypad={input => this.setState(state => ({...state, calculator: {display: input}}))}
+        onKeypad={input => this.nextCalculatorState(input)}
       />,
     ]
   }

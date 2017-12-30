@@ -16,7 +16,7 @@ function createApp() {
   app.post('/calculate', bodyParser.json(), (req, res) => {
     const {calculatorState, input, rates} = req.body
 
-    res.json(nextState(calculatorState || initialState(rates), input))
+    res.json(nextState(calculatorState || initialState(), input, rates))
   })
 
   return app
