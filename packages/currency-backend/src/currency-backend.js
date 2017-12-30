@@ -5,16 +5,19 @@ const passport = require('passport')
 const flash = require('connect-flash')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const redis = require('redis')
 const session = require('express-session')
 const connectRedis = require('connect-redis')
 const authenticationRoutes = require('./auth-routes')
 const frontendRoutes = require('./frontend-routes')
+const proxy = require('express-http-proxy')
 
 function createApp({
   redisAddress,
   sessionSecret,
   userServiceAddress,
   frontendAddress,
+  calculatorAddress,
   disableAuthentication,
 }) {
   let cachedSymbols
@@ -28,7 +31,8 @@ function createApp({
 
   app.set('view engine', 'ejs')
 
-  const RedisStore = connectRedis(session)
+  const redisClient = new redis.createClient({url: `//${redisAddress}`})
+  const RedisStore = connectRedis({client: redisClient})
   app.use(
     session({
       secret: sessionSecret,
@@ -80,6 +84,8 @@ function createApp({
     }
   })
 
+  app.all('/calculate', onlyIfLoggedInAjax, proxy(calculatorAddress))
+
   function onlyIfLoggedIn(req, res, next) {
     if (req.isAuthenticated() || disableAuthentication) return next()
 
@@ -90,6 +96,10 @@ function createApp({
     if (req.isAuthenticated() || disableAuthentication) return next()
 
     res.status(401).send('')
+  }
+
+  app.dispose = async () => {
+    await redisClient.quit()
   }
 
   return app

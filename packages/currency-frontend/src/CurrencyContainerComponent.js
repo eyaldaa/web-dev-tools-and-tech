@@ -52,6 +52,7 @@ export default class CurrencyContainerComponent extends React.Component {
       />,
       <CalculatorDisplay display={this.state.calculator.display} />,
       <CalculatorKeypad
+        currencies={this.state.rates.map(({symbol}) => symbol)}
         onKeypad={input => this.setState(state => ({...state, calculator: {display: input}}))}
       />,
     ]

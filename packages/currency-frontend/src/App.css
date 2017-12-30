@@ -1,5 +1,4 @@
 .App {
-  text-align: center;
 }
 
 .App-logo {
@@ -25,6 +24,7 @@
 
 .add-currency-component-container {
   width: 300px;
+  text-align: left;
 }
 
 table {

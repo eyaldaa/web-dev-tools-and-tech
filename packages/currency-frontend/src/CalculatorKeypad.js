@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CalculatorKeypad = ({onKeypad}) => {
+const CalculatorKeypad = ({onKeypad, currencies}) => {
   const numeric = digit => (
     <td onClick={() => onKeypad(digit)} className={`digit-${digit}`}>
       {digit}
@@ -9,6 +9,18 @@ const CalculatorKeypad = ({onKeypad}) => {
   const operator = (operator, name) => (
     <td onClick={() => onKeypad(operator)} className={`operator operator-${name}`}>
       {operator}
+    </td>
+  )
+
+  const currencyList = (
+    <td>
+      <select onChange={event => onKeypad(event.target.value)}>
+        {currencies.map(currency => (
+          <option key={currency} value={currency}>
+            {currency}
+          </option>
+        ))}
+      </select>
     </td>
   )
 
@@ -25,9 +37,9 @@ const CalculatorKeypad = ({onKeypad}) => {
           {numeric('1')} {numeric('2')} {numeric('3')} {operator('-', 'subtract')}
         </tr>
         <tr>
-          <td />
-          {numeric('0')} {operator('+', 'plus')} {operator('=', 'equals')}
+          {currencyList} {numeric('0')} {operator('+', 'plus')} {operator('=', 'equals')}
         </tr>
+        <tr />
       </tbody>
     </table>
   )

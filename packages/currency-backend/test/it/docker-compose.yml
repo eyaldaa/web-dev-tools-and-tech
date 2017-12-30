@@ -12,12 +12,12 @@ services:
     environment:
       REDIS_ADDRESS: 'redis:6379'
 
-  user-service-redis:
-    image: redis:alpine
-    ports:
-      - 6379
-
   currency-frontend:
     image: webdevtoolsandtech/currency-frontend
+    ports:
+      - 80
+
+  currency-calculator:
+    image: webdevtoolsandtech/currency-calculator
     ports:
       - 80

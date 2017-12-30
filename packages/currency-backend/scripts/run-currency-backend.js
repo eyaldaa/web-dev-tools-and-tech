@@ -8,6 +8,7 @@ const configuration = {
   sessionSecret: process.env.SESSION_SECRET,
   userServiceAddress: process.env.USER_SERVICE_ADDRESS,
   frontendAddress: process.env.FRONTEND_ADDRESS,
+  calculatorAddress: process.env.CALCULATOR_ADDRESS,
 }
 
 const server = webApp(configuration).listen(process.env.PORT || 3000, err => {

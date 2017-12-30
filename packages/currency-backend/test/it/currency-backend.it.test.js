@@ -18,7 +18,7 @@ describe('currency-backend it', function() {
 
   const {baseUrl} = setupApp(envName, composePath)
 
-  it.only('should wait and let me play with stuff', async () => {
+  it.skip('should wait and let me play with stuff', async () => {
     console.log(`Start testing at ${baseUrl()}`)
     await require('util').promisify(setTimeout)(20000000)
   })
@@ -78,6 +78,26 @@ describe('currency-backend it', function() {
       USD: 1.5854,
     })
   })
+
+  it.only('should do a calculation correctly', async () => {
+    let nextState
+    nextState = await fetchNextCalcState(null, '2', {EUR: 3})
+    expect(nextState.display).to.equal('2')
+    nextState = await fetchNextCalcState(nextState, 'EUR')
+    expect(nextState.display).to.equal('6')
+  })
+
+  async function fetchNextCalcState(calculatorState, input, rates) {
+    const response = await fetch(`${baseUrl()}/calculate`, {
+      method: 'POST',
+      body: JSON.stringify({rates, calculatorState, input}),
+      headers: {'Content-Type': 'application/json'},
+    })
+    expect(response.status).to.equal(200)
+
+    return await response.json()
+  }
+
 })
 
 function setupApp(envName, composePath) {
@@ -89,6 +109,12 @@ function setupApp(envName, composePath) {
       sessionSecret: 'hush-hush',
       userServiceAddress: await getAddressForService(envName, composePath, 'user-service', 80),
       frontendAddress: await getAddressForService(envName, composePath, 'currency-frontend', 80),
+      calculatorAddress: await getAddressForService(
+        envName,
+        composePath,
+        'currency-calculator',
+        80,
+      ),
       disableAuthentication: false,
     }
 
