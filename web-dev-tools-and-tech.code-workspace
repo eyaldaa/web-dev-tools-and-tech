@@ -17,6 +17,9 @@
 		},
 		{
 			"path": "packages/currency-calculator"
+		},
+		{
+			"path": "snippets/testing/javascript-testing"
 		}
 	],
 	"settings": {}
