@@ -20,6 +20,9 @@
 		},
 		{
 			"path": "snippets/testing/javascript-unit-testing"
+		},
+		{
+			"path": "snippets/testing/java-unit-testing"
 		}
 	],
 	"settings": {}
