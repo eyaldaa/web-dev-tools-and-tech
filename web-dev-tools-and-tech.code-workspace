@@ -19,7 +19,7 @@
 			"path": "packages/currency-calculator"
 		},
 		{
-			"path": "snippets/testing/javascript-testing"
+			"path": "snippets/testing/javascript-unit-testing"
 		}
 	],
 	"settings": {}
