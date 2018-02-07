@@ -16,7 +16,7 @@
     "eslint": "eslint '**/*.js'",
     "start": "scripts/run-currency-backend.js",
     "build": "npm run build:docker",
-    "build:docker": "docker build -t webdevtoolsandtech/currency-backend --build-arg NPM_FILE=`cat ~/.npmrc` .",
+    "build:docker": "docker build -t webdevtoolsandtech/currency-backend .",
     "prepublishOnly": "npm version patch",
     "postpublish": "npm run publish:docker",
     "publish:docker": "docker tag webdevtoolsandtech/currency-backend webdevtoolsandtech/currency-backend:${npm_package_version} && docker push webdevtoolsandtech/currency-backend:${npm_package_version} && docker push web-dev-tools-and-tech/currency-backend:latest"

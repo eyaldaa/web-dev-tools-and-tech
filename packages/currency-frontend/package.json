@@ -9,8 +9,8 @@
     "retry-as-promised": "^2.3.2"
   },
   "devDependencies": {
-    "eslint-plugin-prettier": "^2.3.1",
-    "prettier": "^1.9.2"
+    "eslint-plugin-prettier": "^2.6.0",
+    "prettier": "^1.10.2"
   },
   "scripts": {
     "start": "react-scripts start",

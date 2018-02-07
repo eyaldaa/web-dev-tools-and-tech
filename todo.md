@@ -16,6 +16,3 @@
 
 
 # QUESTIONS
-
-1. When running npm run build:docker inside 'User-service' build breaks
-    * but when I run the script manually: docker build -t name . without the --build args it do builds the image.

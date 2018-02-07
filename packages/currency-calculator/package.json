@@ -17,7 +17,7 @@
     "start": "scripts/run-currency-calculator.js",
     "build": ":",
     "postbuild": "npm run build:docker",
-    "build:docker": "docker build -t webdevtoolsandtech/currency-calculator --build-arg NPM_FILE=`cat ~/.npmrc` .",
+    "build:docker": "docker build -t webdevtoolsandtech/currency-calculator .",
     "prepublishOnly": "npm version patch",
     "postpublish": "npm run publish:docker",
     "publish:docker": "docker tag webdevtoolsandtech/currency-calculator webdevtoolsandtech/currency-calculator:${npm_package_version} && docker push webdevtoolsandtech/currency-calculator:${npm_package_version} && docker push webdevtoolsandtech/currency-calculator:latest"
