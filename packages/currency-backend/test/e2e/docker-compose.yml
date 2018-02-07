@@ -3,7 +3,7 @@ services:
   app:
     image: webdevtoolsandtech/currency-backend
     ports:
-      - 3000:80
+      - 5000:80
     environment:
       REDIS_ADDRESS: 'redis:6379'
       SESSION_SECRET: 'sshhhhh'
