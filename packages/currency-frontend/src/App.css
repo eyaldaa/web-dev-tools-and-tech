@@ -22,10 +22,11 @@
   to { transform: rotate(360deg); }
 }
 
-.add-currency-component-container {
+/* not in use */
+/* .add-currency-component-container {
   width: 300px;
   text-align: left;
-}
+} */
 
 table {
   border-collapse: collapse;

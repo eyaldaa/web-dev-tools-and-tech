@@ -1,4 +1,5 @@
 import React from 'react'
+import './CurrencyList.css'
 
 export default ({deleteCurrency, rates}) => (
   <div className="currency-list">

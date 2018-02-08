@@ -1,0 +1,12 @@
+.currency-list {
+	background-color: lightgray;
+	width: 200px;
+	padding: 20px;
+}
+
+.currency {
+	display: flex;
+	justify-content: space-around;
+	margin: 5px 0;
+}
+

@@ -6,6 +6,8 @@ import fetchNextCalculatorState from './calculatorService'
 import CalculatorDisplay from './CalculatorDisplay'
 import CalculatorKeypad from './CalculatorKeypad'
 
+import './CurrencyContainerComponent.css'
+
 export default class CurrencyContainerComponent extends React.Component {
   constructor(props) {
     super(props)
@@ -54,18 +56,26 @@ export default class CurrencyContainerComponent extends React.Component {
   }
 
   render() {
-    return [
-      <AddCurrencyComponent addCurrency={symbol => this.addCurrencySymbol(symbol)} key="1" />,
-      <CurrencyList
-        key="2"
-        rates={this.state.rates}
-        deleteCurrency={symbol => this.deleteCurrencySymbol(symbol)}
-      />,
-      <CalculatorDisplay display={(this.state.calculatorState || {}).display} />,
-      <CalculatorKeypad
-        currencies={this.state.rates.map(({symbol}) => symbol)}
-        onKeypad={input => this.nextCalculatorState(input)}
-      />,
-    ]
+    return (
+      <div className="app-wrapper">
+        <div className="currency-wrapper">
+          <AddCurrencyComponent addCurrency={symbol => this.addCurrencySymbol(symbol)} key="1" />
+          <CurrencyList
+            key="2"
+            rates={this.state.rates}
+            deleteCurrency={symbol => this.deleteCurrencySymbol(symbol)}
+          />
+        </div>
+        <div className="calculator-wrapper">
+          <div className="display-wrapper">
+            <CalculatorDisplay display={(this.state.calculatorState || {}).display} />
+          </div>
+          <CalculatorKeypad
+            currencies={this.state.rates.map(({symbol}) => symbol)}
+            onKeypad={input => this.nextCalculatorState(input)}
+          />
+        </div>
+      </div>
+    )
   }
 }

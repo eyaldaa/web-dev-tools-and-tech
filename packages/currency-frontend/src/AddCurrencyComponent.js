@@ -18,11 +18,13 @@ export default class extends React.Component {
     return (
       <div className="add-currency-component">
         <label>
-          <span>Add currency to list:</span>
+          <h3 className="add-currency-title">Currency List</h3>
           <input
             id="currency-add"
             type="text"
             value={this.state.currency}
+            placeholder="ILS"
+            maxlength="4"
             onChange={e => this.setState({currency: e.target.value})}
             onKeyPress={e => (e.key === 'Enter' ? this.addCurrency() : undefined)}
           />
