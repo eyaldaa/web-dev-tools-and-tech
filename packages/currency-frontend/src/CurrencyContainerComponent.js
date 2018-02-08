@@ -70,10 +70,12 @@ export default class CurrencyContainerComponent extends React.Component {
           <div className="display-wrapper">
             <CalculatorDisplay display={(this.state.calculatorState || {}).display} />
           </div>
-          <CalculatorKeypad
-            currencies={this.state.rates.map(({symbol}) => symbol)}
-            onKeypad={input => this.nextCalculatorState(input)}
-          />
+          <div className="calculator-keys">
+            <CalculatorKeypad
+              currencies={this.state.rates.map(({symbol}) => symbol)}
+              onKeypad={input => this.nextCalculatorState(input)}
+            />
+          </div>
         </div>
       </div>
     )

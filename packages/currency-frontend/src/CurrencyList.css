@@ -6,7 +6,9 @@
 
 .currency {
 	display: flex;
-	/* justify-content: space-around; */
+	justify-content: space-between;
 	margin: 5px 0;
+	border: 1px solid black;
+	padding: 5px;
 }
 

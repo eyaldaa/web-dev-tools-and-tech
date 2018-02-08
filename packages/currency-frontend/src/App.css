@@ -25,7 +25,6 @@
 
 
 .add-currency-container-component {
-  /* border: 1px solid black; */
   display: flex;
   justify-content: center;
   margin-top: 20px;
@@ -37,14 +36,15 @@ table {
   min-width: 200px;
 }
 
-tr {
-  width: 100%;
+tbody {
+  width: 100px;
 }
 
 td {
 	text-align: center;
   cursor: pointer;
-  width: 200px;
+  width: 25% !important;
+  min-width: 50px;
 
   border: 1px solid #999;
   padding: 0.5rem;
@@ -63,6 +63,6 @@ td.operator:hover {
 }
 
 
-td .select-currency {
-  width: 50px;
+.select-currency {
+  /* width: 50px; */
 }
