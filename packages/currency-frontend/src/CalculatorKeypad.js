@@ -1,4 +1,5 @@
 import React from 'react'
+import './CalculatorKeypad.css'
 
 const CalculatorKeypad = ({onKeypad, currencies}) => {
   const numeric = digit => (
@@ -14,7 +15,7 @@ const CalculatorKeypad = ({onKeypad, currencies}) => {
 
   const currencyList = (
     <td>
-      <select onChange={event => onKeypad(event.target.value)}>
+      <select className="select-currency" onChange={event => onKeypad(event.target.value)}>
         {currencies.map(currency => (
           <option key={currency} value={currency}>
             {currency}

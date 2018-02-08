@@ -1,4 +1,5 @@
 .App {
+  text-align: center;
 }
 
 .App-logo {
@@ -22,26 +23,40 @@
   to { transform: rotate(360deg); }
 }
 
-/* not in use */
-/* .add-currency-component-container {
-  width: 300px;
-  text-align: left;
-} */
+
+.add-currency-container-component {
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
 table {
   border-collapse: collapse;
+  max-width: 200px;
+  min-width: 200px;
+}
+
+td {
+	text-align: center;
+  cursor: pointer;
+}
+
+td:hover {
+  background-color: lightgrey;
 }
 
 td, th {
   border: 1px solid #999;
   padding: 0.5rem;
-  cursor: default;
+  /* cursor: default; */
 }
 
 td.operator {
   background-color: grey;
 }
 
-td.operator:hover {
-  background-color: lightgrey;
+
+td .select-currency {
+  width: 50px;
 }

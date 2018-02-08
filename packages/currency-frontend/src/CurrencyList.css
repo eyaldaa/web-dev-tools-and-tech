@@ -6,7 +6,7 @@
 
 .currency {
 	display: flex;
-	justify-content: space-around;
+	/* justify-content: space-around; */
 	margin: 5px 0;
 }
 
