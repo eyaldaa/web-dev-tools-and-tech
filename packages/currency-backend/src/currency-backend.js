@@ -44,7 +44,7 @@ function createApp({
   app.use(passport.session())
   app.use(flash())
 
-  app.get('/', (req, res) => res.send('OK'))
+  app.get('/', (req, res) => res.redirect('/currency'))
 
   if (!disableAuthentication) {
     authenticationRoutes(app, passport, userServiceAddress, onlyIfLoggedIn)
@@ -90,7 +90,7 @@ function createApp({
   function onlyIfLoggedIn(req, res, next) {
     if (req.isAuthenticated() || disableAuthentication) return next()
 
-    res.redirect('/')
+    res.redirect('/login')
   }
 
   function onlyIfLoggedInAjax(req, res, next) {
