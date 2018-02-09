@@ -1,6 +1,0 @@
-version: '3'
-services:
-  app:
-    image: webdevtoolsandtech/currency-calculator
-    ports:
-      - 80
