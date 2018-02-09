@@ -1,14 +1,17 @@
 version: '3'
 services:
-
-  currency-backend:
+  app:
     image: webdevtoolsandtech/currency-backend
+    ports:
+      - 80
     environment:
-      REDIS_ADDRESS: 'currency-backend-redis:6379'
-      SESSION_SECRET: 'shhhhhhhh'
-      USER_SERVICE_ADDRESS: 'user-service:80'
+      REDIS_ADDRESS: 'redis:6379'
+      SESSION_SECRET: 'sshhhhh'
+      USER_SERVICE_ADDRESS: 'user-service'
+      FRONTEND_ADDRESS: 'currency-frontend'
+      CALCULATOR_ADDRESS: 'currency-calculator'  
 
-  currency-backend-redis:
+  redis:
     image: redis:alpine
     ports:
       - 6379
@@ -18,9 +21,14 @@ services:
     ports:
       - 80
     environment:
-      REDIS_ADDRESS: 'user-service-redis:6379'
+      REDIS_ADDRESS: 'redis:6379'
 
-  user-service-redis:
-    image: redis:alpine
+  currency-frontend:
+    image: webdevtoolsandtech/currency-frontend
     ports:
-      - 6379
+      - 80
+    
+  currency-calculator:
+    image: webdevtoolsandtech/currency-calculator
+    ports: 
+      - 80
