@@ -1,9 +1,7 @@
 function calculatePolish(polish) {
   const stack = []
 
-  while (polish.length > 0) {
-    const current = polish.shift()
-
+  for (const current of polish) {
     calculate(stack, current)
   }
 
