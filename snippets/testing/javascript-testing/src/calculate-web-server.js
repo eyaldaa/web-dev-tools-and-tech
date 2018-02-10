@@ -1,7 +1,7 @@
 'use strict'
 const express = require('express')
 
-function makeWebApp() {
+function makeWebApp(store) {
   const app = express()
 
   app.post('/calculate', 1)
